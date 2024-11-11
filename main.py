@@ -31,6 +31,7 @@ def loop():
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill("black")
+        player.update(dt)
         player.draw(screen)
         # flip() the display to put your work on screen
         pygame.display.flip()
