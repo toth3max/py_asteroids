@@ -34,17 +34,18 @@ def loop():
     global running
     global dt
     global player, asteroids, shots
+    asteroids_field = AsteroidField()
 
     asteroids_field: AsteroidField
     while running:
-        # poll for events
+        dt = clock.tick(60) / 1000
+
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        asteroids_field = AsteroidField()
-        # fill the screen with a color to wipe away anything from last frame
+
         screen.fill("black")
         for u in updatable:
             u.update(dt)
@@ -53,23 +54,15 @@ def loop():
             d.draw(screen)
 
         for a in asteroids:
-            a.update(dt)
             if player.is_colliding(a):
                 print("Game over!")
+                
             for s in shots:
                 if s.is_colliding(a):
-                    a.kill()
+                    a.split()
                     s.kill()
 
-        #player.update(dt)
-        #player.draw(screen)
-        # flip() the display to put your work on screen
         pygame.display.flip()
-
-        # limits FPS to 60
-        # dt is delta time in seconds since last frame, used for framerate-
-        # independent physics.
-        dt = clock.tick(60) / 1000
 
 
 if __name__ == "__main__":
